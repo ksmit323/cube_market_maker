@@ -2,11 +2,10 @@ use crate::api::CubeApi;
 use crate::constants;
 use crate::dashboard::{Dashboard, Trade, TradeType};
 use log::warn;
-use std::sync::Arc;
 use tokio::time::{self, Duration};
 
 pub struct TradingBot {
-    api: Arc<CubeApi>,
+    api: CubeApi,
     base_currency: String,
     profit_margin: f64,
     amount: f64,
@@ -14,9 +13,9 @@ pub struct TradingBot {
 }
 
 impl TradingBot {
-    pub fn new(api: Arc<CubeApi>, base_currency: &str, profit_margin: f64, amount: f64) -> Self {
+    pub fn new(base_currency: &str, profit_margin: f64, amount: f64) -> Self {
         Self {
-            api,
+            api: CubeApi::new(),
             base_currency: base_currency.to_string(),
             profit_margin,
             amount,

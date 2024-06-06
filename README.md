@@ -52,9 +52,17 @@ cargo build --release
     ```sh
     cargo run --releaese
     ```
+  - The bot will automatically print the latest trades
+    <p align="left">
+    <img src="assets/last_trades.png" alt="last trades" width="800"/>
+    </p>
+  
 3. **Interactive Console**
   - Type in the base currency symbol into the console to print the dashboard and display account details.
-  - For example, type 'eth' to display the ETH dashboard
+  - For example, type **'eth'** to display the ETH dashboard:
+    <p align="left">
+    <img src="assets/account.png" alt="account info" width="400"/>
+    </p>
 
 4. **Adding More Bots:**
 The bot is designed to be dynamic, allowing you to add more trading bots for different cryptocurrencies easily. You are not limited to SOL or ETH; those are just examples. To add more bots:
@@ -98,6 +106,8 @@ The bot can be configured using the "constants.rs" file. You can set parameters 
 ├── Cargo.toml
 ├── README.md         
 ```
+## Note on Simulated Trades
+- Due to connectivity issues with the Cube Exchange API (I didn't have any testnet tokens), the current implementation simulates trades instead of placing actual orders. This simulation is intended for testing and development purposes. Once connectivity is established, the place order logic can be implemented to interact with the live exchange.
 
 ## Improvements
 

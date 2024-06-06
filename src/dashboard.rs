@@ -35,7 +35,7 @@ impl Dashboard {
             base_currency: base_currency.to_string(),
             num_trades: 0,
             total_profit: 0.0,
-            total_buy_volume: 0.0,  
+            total_buy_volume: 0.0,
             total_sell_volume: 0.0,
             total_buy_amount: 0.0,
             total_sell_amount: 0.0,

@@ -29,10 +29,10 @@ impl TradingBot {
         let mut performance_interval = time::interval(Duration::from_secs(20));
         loop {
             tokio::select! {
-                _ = trade_interval.tick() => {        
+                _ = trade_interval.tick() => {
                     match self
                         .api
-                        .get_bidask_prices_by_base_currency(&self.base_currency)
+                        .get_bid_ask_prices_by_base_currency(&self.base_currency)
                         .await
                     {
                         Ok(Some(ticker)) => {
@@ -45,7 +45,7 @@ impl TradingBot {
                             let buy_price = mid_price * (1.0 - adjusted_spread_percentange);
                             let sell_price = mid_price * (1.0 + adjusted_spread_percentange);
 
-                            
+
                             // Simulate trade for demonstration purposes
                             // Delete this after implementing the actual trading logic
                             self.dashboard.record_trade(Trade {
@@ -60,7 +60,7 @@ impl TradingBot {
                                 volume: self.amount,
                                 timestamp: chrono::Utc::now(),
                             });
-                            
+
                             // Display trade performance
                             println!("\n[{}]:", self.base_currency);
                             println!("Buy Price: {:.6}, Sell Price: {:.6}", buy_price, sell_price);

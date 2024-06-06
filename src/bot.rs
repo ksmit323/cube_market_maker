@@ -3,29 +3,30 @@ use crate::constants;
 use crate::dashboard::{Dashboard, Trade, TradeType};
 use log::warn;
 use tokio::time::{self, Duration};
+use std::sync::Arc;
+use tokio::sync::Mutex;
 
 pub struct TradingBot {
     api: CubeApi,
     base_currency: String,
     profit_margin: f64,
     amount: f64,
-    pub dashboard: Dashboard,
+    dashboard: Arc<Mutex<Dashboard>>,
 }
 
 impl TradingBot {
-    pub fn new(base_currency: &str, profit_margin: f64, amount: f64) -> Self {
+    pub fn new(base_currency: &str, amount: f64, dashboard: Arc<Mutex<Dashboard>>) -> Self {
         Self {
             api: CubeApi::new(),
             base_currency: base_currency.to_string(),
-            profit_margin,
+            profit_margin: constants::PROFIT_MARGIN,
             amount,
-            dashboard: Dashboard::new(base_currency),
+            dashboard,
         }
     }
 
     pub async fn run(&mut self) {
         let mut trade_interval = time::interval(Duration::from_secs(10));
-        let mut performance_interval = time::interval(Duration::from_secs(20));
         loop {
             tokio::select! {
                 _ = trade_interval.tick() => {
@@ -47,23 +48,26 @@ impl TradingBot {
 
                             // Simulate trade for demonstration purposes
                             // Delete this after implementing the actual trading logic
-                            self.dashboard.record_trade(Trade {
-                                trade_type: TradeType::Buy,
-                                price: buy_price,
-                                volume: self.amount,
-                                timestamp: chrono::Utc::now(),
-                            });
-                            self.dashboard.record_trade(Trade {
-                                trade_type: TradeType::Sell,
-                                price: sell_price,
-                                volume: self.amount,
-                                timestamp: chrono::Utc::now(),
-                            });
+                            {   
+                                let mut dashboard = self.dashboard.lock().await;
+                                dashboard.record_trade(Trade {
+                                    trade_type: TradeType::Buy,
+                                    price: buy_price,
+                                    volume: self.amount,
+                                    timestamp: chrono::Utc::now(),
+                                });
+                                dashboard.record_trade(Trade {
+                                    trade_type: TradeType::Sell,
+                                    price: sell_price,
+                                    volume: self.amount,
+                                    timestamp: chrono::Utc::now(),
+                                });
 
-                            // Display trade performance
-                            println!("\n[{}]:", self.base_currency);
-                            println!("Buy Price: {:.6}, Sell Price: {:.6}", buy_price, sell_price);
-                            self.dashboard.display_trade_performance();
+                                // Display trade performance
+                                println!("\n[{}]:", self.base_currency);
+                                println!("Buy Price: {:.6}, Sell Price: {:.6}", buy_price, sell_price);
+                                dashboard.display_trade_performance();
+                            }
                         }
 
                         Ok(None) => {
@@ -76,10 +80,6 @@ impl TradingBot {
                             warn!("Error fetching market data: {}", e);
                         }
                     }
-                }
-                _ = performance_interval.tick() => {
-                    // Display the general performance every 60 seconds
-                    self.dashboard.display_general_performance();
                 }
             }
         }

@@ -32,7 +32,7 @@ impl TradingBot {
                 _ = trade_interval.tick() => {        
                     match self
                         .api
-                        .get_ticker_by_base_currency(&self.base_currency)
+                        .get_bidask_prices_by_base_currency(&self.base_currency)
                         .await
                     {
                         Ok(Some(ticker)) => {

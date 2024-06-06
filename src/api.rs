@@ -114,7 +114,7 @@ impl CubeApi {
         Ok(ticker_data)
     }
 
-    pub async fn get_ticker_by_base_currency(
+    pub async fn get_bidask_prices_by_base_currency(
         &self,
         base_currency: &str,
     ) -> Result<Option<Ticker>, Box<dyn std::error::Error>> {

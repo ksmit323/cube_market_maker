@@ -2,9 +2,9 @@ use crate::api::CubeApi;
 use crate::constants;
 use crate::dashboard::{Dashboard, Trade, TradeType};
 use log::warn;
-use tokio::time::{self, Duration};
 use std::sync::Arc;
 use tokio::sync::Mutex;
+use tokio::time::{self, Duration};
 
 pub struct TradingBot {
     api: CubeApi,
@@ -45,10 +45,9 @@ impl TradingBot {
                             let buy_price = mid_price * (1.0 - adjusted_spread_percentange);
                             let sell_price = mid_price * (1.0 + adjusted_spread_percentange);
 
-
                             // Simulate trade for demonstration purposes
                             // Delete this after implementing the actual trading logic
-                            {   
+                            {
                                 let mut dashboard = self.dashboard.lock().await;
                                 dashboard.record_trade(Trade {
                                     trade_type: TradeType::Buy,

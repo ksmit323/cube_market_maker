@@ -96,14 +96,18 @@ impl CubeApi {
         }
     }
 
-    pub async fn get_market_data(&self) -> Result<String, Box<dyn std::error::Error + Send + Sync>> {
+    pub async fn get_market_data(
+        &self,
+    ) -> Result<String, Box<dyn std::error::Error + Send + Sync>> {
         let url = constants::URL_MAINNET.to_string() + "md/v0/parsed/tickers";
         let response = reqwest::get(url).await?;
         let text = response.text().await?;
         Ok(text)
     }
 
-    pub async fn extract_bid_ask_prices(&self) -> Result<Vec<Ticker>, Box<dyn std::error::Error + Send + Sync>> {
+    pub async fn extract_bid_ask_prices(
+        &self,
+    ) -> Result<Vec<Ticker>, Box<dyn std::error::Error + Send + Sync>> {
         let market_data = self.get_market_data().await?;
         let api_response: ApiResponse = serde_json::from_str(&market_data)?;
         let ticker_data = api_response

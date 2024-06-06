@@ -1,3 +1,9 @@
+//! The main entry point for the Cube Market Maker application.
+//!
+//! This module initializes logging,creates and runs trading
+//! bots for different cryptocurrencies, and handles user
+//! input via an interactive console.
+
 mod api;
 mod bot;
 mod constants;

@@ -1,6 +1,9 @@
-/*
-Include a simple performance analytics dashboard showing bot's trading performance
-*/
+//! This module defines the `Dashboard` struct and its associated methods for tracking and displaying trading performance metrics.
+//!
+//! The `Dashboard` struct is responsible for:
+//! - Recording trades executed by the `TradingBot`.
+//! - Calculating and displaying performance metrics such as the number of trades, total profit and loss, average buy and sell prices, and volumes.
+//! - Providing a user interface for displaying trade performance in real-time.
 
 use chrono::{DateTime, Utc};
 

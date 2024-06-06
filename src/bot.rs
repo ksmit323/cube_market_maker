@@ -1,3 +1,13 @@
+//! This module defines the `TradingBot` struct and its associated methods for executing market making strategies.
+//!
+//! The `TradingBot` struct is responsible for:
+//! - Fetching market data using the `CubeApi`.
+//! - Calculating bid and ask prices based on the mid price, spread, and maker fee.
+//! - Simulating trade execution due to current API issues.
+//! - Recording and displaying trade performance metrics via the `Dashboard`.
+//!
+//! The bot operates asynchronously and is designed to handle multiple trading pairs concurrently.
+
 use crate::api::CubeApi;
 use crate::constants;
 use crate::dashboard::{Dashboard, Trade, TradeType};

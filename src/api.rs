@@ -1,3 +1,10 @@
+//! This module provides the `CubeApi` struct and associated methods for interacting with the Cube Exchange API.
+//!
+//! The `CubeApi` struct includes methods for:
+//! - Fetching market data
+//! - Extracting bid and ask prices
+//! - Placing orders on the Cube Exchange
+
 use crate::constants;
 use base64;
 use dotenv::dotenv;
